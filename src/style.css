@@ -1,316 +1,59 @@
-body {
-    background-color: #212121;
-    color: white;
-    font-family: 'Roboto', sans-serif;
-    background-image: url('https://images.pexels.com/photos/683039/pexels-photo-683039.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
-    background-size: cover; /* Ensures the image covers the whole page */
-    background-position: center; /* Centers the image */
-    background-repeat: no-repeat; /* Prevents the image from repeating */
-    height: 100vh; /* Ensures the body height covers the full viewport */
-    margin: 0; /* Removes default margin */
-    padding: 0; /* Removes default padding */
-    position: relative; /* Allows absolute positioning of overlay */
+/* Style for container to create a flex layout */
+#container {
+    display: flex;
+    height: 100vh; /* Full viewport height */
 }
-#content.menu {
-    background-color: #EDBB70; /* Light gray for the menu */
-    color: #ffffff; /* Dark text for readability */
+
+/* Style for the dashboard on the left */
+.dashboard {
+    width: 20%; /* 20% of the container width */
+    background-color: #f4f4f4;
     padding: 20px;
+    box-shadow: 2px 0 5px rgba(218, 17, 17, 0.1);
+    overflow-y: auto;
+    position: fixed;
 }
 
-body::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Adds overlay for better contrast */
-    z-index: -1; /* Places overlay behind the content */
-}
-.nav {
-    display: flex;
-    align-items: center;
-}
-
-header {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 700; /* Bold */
-    background-color: #ffffff;
-    padding: 15px 20px;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-
-nav ul {
-    display: flex;
+/* Navigation inside the dashboard */
+.nav ul {
     list-style: none;
     padding: 0;
-    margin: 0;
-    gap: 40px;
+    margin: 20px;
+    margin-top: 40px;
 }
 
-/* Primary Button */
-nav ul li button {
-    background-color: black; /* Gold */
-    color:whitesmoke;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-/* Hover State */
-nav ul li button:hover {
-    background-color: #FFC107; /* Softer Gold */
-    transform: scale(1.05); /* Slight Zoom Effect */
-}
-
-/* Active State */
-nav ul li button:active {
-    background-color: #E6AC00; /* Deeper Gold */
-}
-
-/*menu setting */
-#content.menu-page {
-    background-color: #212121;
-    min-height: 100vh;
-    padding: 2rem;
-}
-
-.header {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.section-title {
-    color: #FFD700;
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-}
-
-.cafe-name {
-    color: #FFC107;
-    font-size: 1.5rem;
-}
-
-/* Two-column layout */
-.menu-section {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 2px 1fr;
-    gap: 2rem;
-    padding: 1rem;
-}
-
-/* Vertical divider */
-.menu-divider {
-    background: linear-gradient(to bottom, transparent, #FFD700, transparent);
-    height: 100%;
-    width: 2px;
-    margin: 0 1rem;
-}
-
-/* Left and right menu columns */
-.menu-column {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.menu-category {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    padding: 1.5rem;
-    border: 1px solid rgba(255, 215, 0, 0.2);
-}
-
-.menu-category h2 {
-    color: #FFD700;
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid rgba(255, 215, 0, 0.3);
-}
-
-.menu-items {
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-}
-
-.menu-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem 0;
-    border-bottom: 1px dotted rgba(255, 255, 255, 0.1);
-}
-
-.item-name {
-    color: #ffffff;
-    font-weight: 400;
-}
-
-.item-price {
-    color: #FFC107;
-    font-weight: 500;
-}
-
-/* Media query for mobile */
-@media (max-width: 768px) {
-    .menu-section {
-        grid-template-columns: 1fr;
-    }
-    
-    .menu-divider {
-        display: none;
-    }
-}
-
-.main-contact {
-    background-color: #212121; /* Dark background for the main contact section */
-    color: gold; /* Gold text */
-    padding: 20px;
-    border-radius: 10px;
-    margin: 20px auto;
-    max-width: 800px;
-}
-
-/* Title styling */
-.title {
-    font-size: 2.5rem;
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-/* Address section */
-.address {
-    margin-top: 20px;
-    font-size: 1.2rem;
-}
-
-/* Paragraph inside address */
-.address p {
-    margin: 5px 0;
-}
-
-/* Styling for the contact details (email and phone links) */
-.address a {
-    color: gold; /* Gold color for the links */
-    text-decoration: none;
-    margin-top: 10px;
-    display: inline-block;
-    font-weight: bold;
-}
-
-.address a:hover {
-    text-decoration: underline; /* Underline on hover */
-}
-
-/* Hours section */
-.hours {
+.nav li {
+    margin: 10px 0;
     margin-top: 30px;
 }
 
-/* Unordered list of hours */
-.hours ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.hours li {
-    font-size: 1.2rem;
-    margin: 5px 0;
-}
-
-/* Styling for links to look more interactive */
-.hours li a {
-    color: gold; /* Gold color for links */
-    text-decoration: none;
-}
-
-.hours li a:hover {
-    text-decoration: underline;
-}
-
-/* Additional Styling for Links */
-a {
-    color: gold;
-    text-decoration: none;
+.nav button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 4px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-weight: bold;
 }
 
-a:hover {
-    text-decoration: underline;
+.nav button:hover {
+    background-color: #0056b3;
 }
-#content.contact-page {
-    background-color: #212121;
-    background-image: url('https://images.pexels.com/photos/2775827/pexels-photo-2775827.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    display: flex;
-    justify-content: center; /* Centers the content horizontally */
-    align-items: center; /* Centers the content vertically */
-    text-align: center; /* Centers text */
+h1{
+    font-size: 50px;
+    align-items: center;
+    margin-left: 25px;
+    color:black;
 }
 
-#content.contact-page::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Adds overlay */
-    z-index: -1;
-}
-
-.contact-page .title {
-    color: #dfdccf;
-    font-size: 3rem;
-    font-weight:bold;
-    font-family: cursive;
-
-    margin-bottom: 20px;
-}
-
-.contact-page .hours,
-.contact-page .address {
-    color: white;
-    font-size: 1.2rem;
-    margin-top: 20px;
-}
-
-.contact-page ul {
-    list-style: none; /* Removes default bullets */
-    padding: 0;
-}
-
-.contact-page ul li {
-    margin: 10px 0;
-    font-size: 1.1rem;
-}
-
-.contact-page a {
-    color:whitesmoke;
-    text-decoration: none;
-   
-}
-
-.contact-page a:hover {
-    text-decoration: underline;
+/* Style for main content on the right */
+.mainContent {
+    flex-grow: 1; /* Takes the remaining width */
+    background-color: #fff;
+    padding: 20px;
+    overflow-y: auto;
 }
