@@ -1,25 +1,25 @@
 const container = document.getElementById("container");
 const dashboard = document.createElement("div");
 dashboard.className = "dashboard";
-const mainContent = document.createElement("div");
-dashboard.className = "mainContent";
-//title
+
+// Create the main content area
+export const mainContent = document.createElement("div");
+mainContent.className = "mainContent"; // Use mainContent here
+
+// Title
 const title = document.createElement("h1");
 title.textContent = "Dashboard";
 
-const dashitems = ["Home", "Tasks", "Add Tasks", "Projects", "Schedules"];
+const dashitems = ["Home", "Tasks", "Projects", "Schedules"];
 
 export function loadHome() {
-    // Dashboard on the left
-    const dashboard = document.createElement("div");
-    dashboard.className = "dashboard";
-
+    // Create the left-side dashboard (This part was being duplicated)
     const nav = document.createElement("nav");
     nav.className = "nav";
 
     const ul = document.createElement("ul");
 
-    // Loop over the elements
+    // Loop over the elements for navigation items
     dashitems.forEach(item => {
         const li = document.createElement("li");
         const button = document.createElement("button"); 
@@ -27,10 +27,15 @@ export function loadHome() {
         li.appendChild(button);
         ul.appendChild(li);
     });
-    dashboard.appendChild(title)
 
+    // Add title and navigation to the dashboard
+    dashboard.appendChild(title);
     nav.appendChild(ul);
     dashboard.appendChild(nav);
+
+    // Append the dashboard and main content to the container
     container.appendChild(dashboard);
-    container.appendChild("mainContent");
+    container.appendChild(mainContent); // Corrected this line
+
+    
 }
