@@ -1,151 +1,96 @@
 import { mainContent } from "./home";
 
-// Array to store tasks (Example data structure)
-let tasks = [];
-
-function addTask(task, finishDate) {
-    // Add the task to the tasks array
-    tasks.push({ task, finishDate, completed: false });
-
-    // Re-render the tasks after adding the new one
-    renderTasks();
-}
-
-function showTaskForm() {
-    const todoForm = document.getElementById("todoForm");
-    if (todoForm) {
-        todoForm.style.display = "block"; // Show the form
-    }
-}
-
-function createTodoForm() {
-    // Create the form element
-    const todoForm = document.createElement("form");
-    todoForm.id = "todoForm";
-
-    // Create the task input
-    const taskLabel = document.createElement("label");
-    taskLabel.setAttribute("for", "task");
-    taskLabel.textContent = "Task:";
-    const taskInput = document.createElement("input");
-    taskInput.type = "text";
-    taskInput.id = "task";
-    taskInput.name = "task";
-    taskInput.required = true;
-
-    // Create the finish date input
-    const dateLabel = document.createElement("label");
-    dateLabel.setAttribute("for", "finishDate");
-    dateLabel.textContent = "Finish Date:";
-    const dateInput = document.createElement("input");
-    dateInput.type = "date";
-    dateInput.id = "finishDate";
-    dateInput.name = "finishDate";
-    dateInput.required = true;
-
-    // Create the submit button
-    const submitButton = document.createElement("button");
-    submitButton.type = "submit";
-    submitButton.textContent = "Add Task";
-
-    // Append inputs and labels to the form
-    todoForm.appendChild(taskLabel);
-    todoForm.appendChild(taskInput);
-    todoForm.appendChild(dateLabel);
-    todoForm.appendChild(dateInput);
-    todoForm.appendChild(submitButton);
-
-    // Append the form to the container
-    mainContent.appendChild(todoForm);
-
-    // Handle form submission to add tasks
-    todoForm.addEventListener("submit", (event) => {
-        event.preventDefault(); // Prevent page refresh on form submit
-
-        // Get the values from the form
-        const task = document.getElementById("task").value.trim();
-        const finishDate = document.getElementById("finishDate").value.trim();
-
-        if (task && finishDate) {
-            addTask(task, finishDate); // Add task to the list
-            todoForm.reset(); // Reset the form
-        }
-    });
-}
-
-function createAddTaskButton() {
-    const addButton = document.createElement("button");
-    addButton.textContent = "Add Task";
-    addButton.id = "addTaskButton";
-    mainContent.appendChild(addButton);
-
-    // Event listener for showing the form
-    addButton.addEventListener("click", () => {
-        showTaskForm();
-    });
-}
-
-function renderTasks() {
-    const todoList = document.getElementById("todoList");
-
-    // If the todoList doesn't exist, create it
-    if (!todoList) {
-        const newTodoList = document.createElement("div");
-        newTodoList.id = "todoList";
-        mainContent.appendChild(newTodoList);
+// Task.js
+export class Task {
+    constructor(title, description, isCompleted = false) {
+        this.title = title; // Title of the task
+        this.description = description; // Detailed description of the task
+        this.isCompleted = isCompleted; // Status of the task (default: not completed)
     }
 
-    // Clear the current list
-    const list = document.getElementById("todoList");
-    list.innerHTML = "";
+    // Method to toggle the task's completion status
+    toggleCompletion() {
+        this.isCompleted = !this.isCompleted;
+    }
 
-    // Add each task as a card to the list
-    tasks.forEach((taskObj, index) => {
-        const taskCard = document.createElement("div");
-        taskCard.className = "taskCard";
+    // Method to display task details as an HTML element
+    renderTask() {
+        const taskElement = document.createElement('div');
+        taskElement.className = `task ${this.isCompleted ? 'completed' : ''}`;
 
-        // Task Name
-        const taskName = document.createElement("p");
-        taskName.textContent = taskObj.task;
+        const titleElement = document.createElement('h3');
+        titleElement.textContent = this.title;
 
-        // Apply strikethrough if the task is completed
-        if (taskObj.completed) {
-            taskName.style.textDecoration = "line-through";
-            taskCard.style.backgroundColor = "#d3ffd3"; // Light green background for completed tasks
-        }
+        const descriptionElement = document.createElement('p');
+        descriptionElement.textContent = this.description;
 
-        // Finish Date
-        const finishDate = document.createElement("p");
-        finishDate.textContent = `Finish by: ${taskObj.finishDate}`;
-
-        // Checkbox for task completion
-        const checkboxLabel = document.createElement("label");
-        checkboxLabel.textContent = "Completed";
-
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.checked = taskObj.completed;
-
-        // Event listener for checkbox change
-        checkbox.addEventListener("change", () => {
-            taskObj.completed = checkbox.checked;
-            renderTasks(); // Re-render to update the task state
+        const toggleButton = document.createElement('button');
+        toggleButton.textContent = this.isCompleted ? 'Mark as Incomplete' : 'Mark as Complete';
+        toggleButton.addEventListener('click', () => {
+            this.toggleCompletion();
+            taskElement.classList.toggle('completed');
+            toggleButton.textContent = this.isCompleted ? 'Mark as Incomplete' : 'Mark as Complete';
         });
 
-        // Append the elements to the task card
-        taskCard.appendChild(taskName);
-        taskCard.appendChild(finishDate);
-        taskCard.appendChild(checkboxLabel);
-        taskCard.appendChild(checkbox);
+        taskElement.appendChild(titleElement);
+        taskElement.appendChild(descriptionElement);
+        taskElement.appendChild(toggleButton);
 
-        // Append the card to the todo list
-        list.appendChild(taskCard);
-    });
+        return taskElement;
+    }
+}
+function addTaskBtn(){
+    const addButton = document.createElement('button');
+    addButton.type = 'submit';
+    addButton.textContent = '+';
+    mainContent.appendChild(addButton);
+}
+function addTask()
+{
+    const form = document.createElement('form');
+    form.className = 'task-form';
+
+    const titleInput = document.createElement('input');
+    titleInput.type = 'text';
+    titleInput.placeholder = 'Task Title';
+    titleInput.required = true;
+
+    const descriptionInput = document.createElement('textarea');
+    descriptionInput.placeholder = 'Task Description';
+    descriptionInput.required = true;
+
+    const addButton = document.createElement('button');
+    addButton.type = 'submit';
+    addButton.textContent = 'Add Task';
+
+    form.appendChild(titleInput);
+    form.appendChild(descriptionInput);
+    form.appendChild(addButton);
+
+    // Event Listener to Add Tasks
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const newTask = new Task(titleInput.value, descriptionInput.value);
+        tasksContainer.appendChild(newTask.renderTask());
+
+        // Clear inputs after adding the task
+        titleInput.value = '';
+        descriptionInput.value = ''});
 }
 
-// Function to load the tasks
+// Example usage (can be imported elsewhere)
 export function loadTask() {
- 
-    createAddTaskButton();
-    createTodoForm();
+    addTaskBtn();
+    const task1 = new Task('Buy groceries', 'Buy milk, bread, and eggs.');
+    const task2 = new Task('Complete project', 'Finish the dashboard module by Friday.');
+
+    const tasksContainer = document.createElement('div');
+    tasksContainer.className = 'tasks-container';
+
+    tasksContainer.appendChild(task1.renderTask());
+    tasksContainer.appendChild(task2.renderTask());
+
+    const mainContent = document.querySelector('.mainContent');
+    mainContent.appendChild(tasksContainer);
 }
