@@ -48,15 +48,7 @@ function showLoading() {
     loadingDiv.className = 'loading';
     mainContent.appendChild(loadingDiv);
 }
-function displayTasks(tasks){
-    clearMainContent();
-    tasks.forEach(items){
-        const taskCard=document.createElement('div');
-        taskCard.className="taskCard";
-        const taskTitle=document.createElement('h2');
-        
-    }
-}
+
 
 async function handleNavigation(e) {
     if (e.target.tagName !== 'BUTTON') return;

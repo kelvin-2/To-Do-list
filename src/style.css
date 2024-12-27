@@ -109,7 +109,7 @@ h1 {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-.addBtn {
+.addBTN{
     position: fixed; /* Makes the button stay in place even when scrolling */
     bottom: 20px;    /* Distance from the bottom of the page */
     right: 20px;     /* Distance from the right edge of the page */
