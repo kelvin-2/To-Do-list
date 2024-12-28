@@ -1,4 +1,5 @@
 import { mainContent } from "./home";
+import '../styles/taskStyle.css';
 
 // Task.js
 export class Task {
@@ -39,16 +40,33 @@ export class Task {
         return taskElement;
     }
 }
-function addTaskBtn(){
-    const addButton = document.createElement('button');
-    addButton.type = 'submit';
-    addButton.textContent = '+';
-    mainContent.appendChild(addButton);
+
+let taskForm = null;
+let tasksContainer = null;
+let tasks = [];
+
+function loadTasksFromStorage() {
+    const savedTasks = localStorage.getItem('tasks');
+    if (savedTasks) {
+        const taskData = JSON.parse(savedTasks);
+        tasks = taskData.map(data => {
+            const task = new Task(data.title, data.description, data.isCompleted);
+            task.id = data.id;
+            return task;
+        });
+    }
 }
-function addTask()
-{
+function saveTasks() {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+function deleteTask(taskId) {
+    tasks = tasks.filter(task => task.id !== taskId);
+    saveTasks();
+}
+function createTaskForm() {
     const form = document.createElement('form');
     form.className = 'task-form';
+    form.style.display = 'none';
 
     const titleInput = document.createElement('input');
     titleInput.type = 'text';
@@ -59,38 +77,77 @@ function addTask()
     descriptionInput.placeholder = 'Task Description';
     descriptionInput.required = true;
 
-    const addButton = document.createElement('button');
-    addButton.type = 'submit';
-    addButton.textContent = 'Add Task';
+    const submitButton = document.createElement('button');
+    submitButton.type = 'submit';
+    submitButton.textContent = 'Add Task';
+
+    const cancelButton = document.createElement('button');
+    cancelButton.type = 'button';
+    cancelButton.textContent = 'Cancel';
+    cancelButton.addEventListener('click', () => {
+        form.style.display = 'none';
+        form.reset();
+    });
 
     form.appendChild(titleInput);
     form.appendChild(descriptionInput);
-    form.appendChild(addButton);
+    form.appendChild(submitButton);
+    form.appendChild(cancelButton);
 
-    // Event Listener to Add Tasks
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 
         const newTask = new Task(titleInput.value, descriptionInput.value);
+        tasks.push(newTask); // Add to tasks array
+        saveTasks(); // Save to localStorage
+        
         tasksContainer.appendChild(newTask.renderTask());
 
-        // Clear inputs after adding the task
-        titleInput.value = '';
-        descriptionInput.value = ''});
+        form.reset();
+        form.style.display = 'none';
+    });
+
+    return form;
 }
 
-// Example usage (can be imported elsewhere)
+function addTaskBtn() {
+    const addButton = document.createElement('button');
+    addButton.className = "addBTN";
+    addButton.type = 'button';
+    addButton.textContent = '+';
+    
+    if (!taskForm) {
+        taskForm = createTaskForm();
+        mainContent.appendChild(taskForm);
+    }
+    
+    addButton.addEventListener('click', () => {
+        taskForm.style.display = taskForm.style.display === 'none' ? 'block' : 'none';
+    });
+    
+    mainContent.appendChild(addButton);
+}
+
+// Display all tasks from the array
+function displayTasks() {
+    tasksContainer.innerHTML = ''; // Clear existing tasks
+    tasks.forEach(task => {
+        tasksContainer.appendChild(task.renderTask());
+    });
+}
+
 export function loadTask() {
-    addTaskBtn();
-    const task1 = new Task('Buy groceries', 'Buy milk, bread, and eggs.');
-    const task2 = new Task('Complete project', 'Finish the dashboard module by Friday.');
-
-    const tasksContainer = document.createElement('div');
+    // Create tasks container
+    tasksContainer = document.createElement('div');
     tasksContainer.className = 'tasks-container';
-
-    tasksContainer.appendChild(task1.renderTask());
-    tasksContainer.appendChild(task2.renderTask());
-
-    const mainContent = document.querySelector('.mainContent');
     mainContent.appendChild(tasksContainer);
+
+    // Load existing tasks from storage
+    loadTasksFromStorage();
+    
+    // Display existing tasks
+    displayTasks();
+
+    // Add the button to create new tasks
+    addTaskBtn();
 }
